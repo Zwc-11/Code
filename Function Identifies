@@ -1,0 +1,71 @@
+import java.util.*;
+class HelloWorld {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        ArrayList<Integer> xValues = new ArrayList<>();
+        ArrayList<Integer> yValues = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            xValues.add(scanner.nextInt());
+            yValues.add(scanner.nextInt());
+        }
+        scanner.close();
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            if (map.containsKey(xValues.get(i))) {
+                if (!map.get(xValues.get(i)).equals(yValues.get(i))) {
+                    System.out.println("Not a function");
+                    return;
+                }
+            } else {
+                map.put(xValues.get(i), yValues.get(i));
+            }
+        }
+        ArrayList<Integer> firstDifferences = new ArrayList<>();
+        for (int i = 1; i < n; i++) {
+            firstDifferences.add(yValues.get(i) - yValues.get(i - 1));
+        }
+        boolean isLinear = true;
+        for (int i = 1; i < firstDifferences.size(); i++) {
+            if (!firstDifferences.get(i).equals(firstDifferences.get(0))) {
+                isLinear = false;
+                break;
+            }
+        }
+        if (isLinear) {
+            System.out.println("Linear Function");
+            int slope = firstDifferences.get(0);
+            int yIntercept = yValues.get(0) - slope * xValues.get(0);
+            return;
+        }
+        ArrayList<Integer> secondDifferences = new ArrayList<>();
+        for (int i = 1; i < firstDifferences.size(); i++) {
+            secondDifferences.add(firstDifferences.get(i) - firstDifferences.get(i - 1));
+        }
+        boolean isQuadratic = true;
+        for (int i = 1; i < secondDifferences.size(); i++) {
+            if (!secondDifferences.get(i).equals(secondDifferences.get(0))) {
+                isQuadratic = false;
+                break;
+            }
+        }
+        if (isQuadratic) {
+            System.out.println("Quadratic Function");
+            return;
+        }
+        boolean isCubic = true;
+        for (int i = 2; i < secondDifferences.size(); i++) {
+            if ((secondDifferences.get(i) - secondDifferences.get(i - 1)) != (secondDifferences.get(1) - secondDifferences.get(0))) {
+                isCubic = false;
+                break;
+            }
+        }
+        if (isCubic) {
+            System.out.println("Cubic Function");
+            return;
+        }
+
+        System.out.println("Neither");
+    
+    }
+}
