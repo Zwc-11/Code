@@ -51,11 +51,14 @@ class HelloWorld {
         for(int i = 1; i < tdarr.length-2; i++){
             if(tdarr[i] - tdarr[i-1] == td){
                 tdc = true;
-            }else{tdc = false;}
+            }
+            else{
+                tdc = false;
+            }
         }
-        if(sdc){System.out.println("Quadratic Function");}
-        if(fdc){System.out.println("linear Function");}
+        if(sdc){System.out.println("Quadratic Function");System.exit(0);}
+        if(fdc){System.out.println("linear Function");System.exit(0);}
         if(tdc){System.out.println("Cubic Function");}
-        else{System.out.println("Not a function");}
+        else{System.out.println(tdc);}
     }
 }
