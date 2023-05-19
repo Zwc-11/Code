@@ -18,7 +18,6 @@ class HelloWorld {
                 iffunction = true;
             }else{
                 iffunction = false;
-                System.out.println("Not a function");
                 System.exit(0);
             }
         }
