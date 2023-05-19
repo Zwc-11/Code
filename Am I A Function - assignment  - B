@@ -3,51 +3,56 @@ class HelloWorld {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int num = sc.nextInt();
-        int[] x = new int[num];int[] y = new int[num];
-        for(int i = 0 ; i < num; i++){
-            x[i] = sc.nextInt();y[i] = sc.nextInt();
+        sc.nextLine();
+        String[] pairs = sc.nextLine().split(" ");
+        int[][] xy = new int[num][2];
+        for(int i = 0; i < num * 2; i++) {
+            xy[i / 2][i % 2] = Integer.parseInt(pairs[i]);
         }
-        sc.close();
-        Arrays.sort(x);Arrays.sort(y);
+        Arrays.sort(xy, (a, b) -> Integer.compare(a[0], b[0]));
         boolean iffunction = false;
-        int xd = x[1] - x[0];
-        for (int i = 1; i < x.length; i++) {
-            if(x[i] - x[i-1] == xd){
-                iffunction = true;
-            }else{
-                iffunction = false;
+        int xd = xy[1][0] - xy[0][0];
+        for (int i = 1; i < xy.length-1; i++) {
+            if(xy[i][0] == xy[i-1][0]){                
+                System.out.println("Not a function");
+                System.exit(0);}
+            if((xy[i][0] - xy[i-1][0] == xd) && (xy[i+1][0] - xy[i][0] != xd)){
+                System.out.println("Not a function");
                 System.exit(0);
             }
         }
-        boolean fdc = false;int fd = y[1] - y[0];int[] fdarr = new int[num];
+        boolean fdc = false;
+        int fd =  Math.abs(xy[1][1] - xy[0][1]);int[][] fdarr = new int[num-1][num-1];
         for(int i = 1 ; i < num; i ++){
-            if(y[i] - y[i-1] == fd){
-                if(i < num-1 && y[i+1] - y[i] == fd){
+            if( Math.abs(xy[i][1] - xy[i-1][1]) == fd){
+                if(i < num-1 &&  Math.abs(xy[i+1][1] - xy[i][1]) == fd){
                     fdc =true;
-                }else{
-                    fdarr[i-1] = (y[i] - y[i-1]);
                 }
-            }else{
-                fdc = false; 
-                fdarr[i-1] = (y[i] - y[i-1]);
+                else{
+                    fdarr[i-1][1] =  Math.abs(xy[i][1] - xy[i-1][1]);
+                }
+            }
+            else{
+                fdc = false;
+                fdarr[i-1][1] =  Math.abs(xy[i][1] - xy[i-1][1]);
             }
         }
-        int sd = fdarr[1] - fdarr[0];boolean sdc = false;int[] tdarr = new int[num];
-        for(int i = 1 ; i < num-1; i ++){
-            if(fdarr[i] - fdarr[i-1] == sd){
-                if(i < num-2 && fdarr[i+1] - fdarr[i] == sd ){
+        int sd = Math.abs(fdarr[1][1] - fdarr[0][1]); boolean sdc = false;int[][] tdarr = new int[num][num];
+        for(int i = 1 ; i < fdarr.length; i ++){
+            if(Math.abs(fdarr[i][1] - fdarr[i-1][1]) == sd){
+                if(i < num-2 && Math.abs(fdarr[i+1][1] - fdarr[i][1]) == sd ){
                     sdc = true;
                 }else{
-                    tdarr[i-1] = (fdarr[i] - fdarr[i-1]);
+                    tdarr[i-1][1] = (fdarr[i][1] - fdarr[i-1][1]);
                 }
             }else{
-                sdc = false; 
-                tdarr[i-1] = (fdarr[i] - fdarr[i-1]);
+                sdc = false;
+                tdarr[i-1][1] = (fdarr[i][1] - fdarr[i-1][1]);
             }
         }
-        int td = tdarr[1] - tdarr[0];boolean tdc = false;
+        int td = tdarr[1][1] - tdarr[0][1];boolean tdc = false;
         for(int i = 1; i < tdarr.length-2; i++){
-            if(tdarr[i] - tdarr[i-1] == td){
+            if(tdarr[i][1] - tdarr[i-1][1] == td){
                 tdc = true;
             }
             else{
@@ -55,7 +60,7 @@ class HelloWorld {
             }
         }
         if(sdc){System.out.println("Quadratic Function");System.exit(0);}
-        if(fdc){System.out.println("linear Function");System.out.println("Equation: y = " + fd + "x + 0");System.exit(0);}
+        if(fdc){System.out.println("linear Function");System.out.println("Equation: y = " + (double)(xy[1][1] - xy[0][1]) /  (double)(xy[1][0] - xy[0][0]) + " x + " +fd);System.exit(0);}
         if(tdc){System.out.println("Cubic Function");}
         else{System.out.println("Neither");}
     }
