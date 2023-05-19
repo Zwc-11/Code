@@ -1,0 +1,62 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+class HelloWorld {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+        int[] x = new int[num];int[] y = new int[num];
+        for(int i = 0 ; i < num; i++){
+            x[i] = sc.nextInt();y[i] = sc.nextInt();
+        }
+        sc.close();
+        Arrays.sort(x);Arrays.sort(y);
+        boolean iffunction = false;
+        int xd = x[1] - x[0];
+        for (int i = 1; i < x.length; i++) {
+            if(x[i] - x[i-1] == xd){
+                iffunction = true;
+            }else{
+                iffunction = false;
+                System.out.println("Not a function");
+                System.exit(0);
+            }
+        }
+        boolean fdc = false;int fd = y[1] - y[0];int[] fdarr = new int[num];
+        for(int i = 1 ; i < num; i ++){
+            if(y[i] - y[i-1] == fd){
+                if(i < num-1 && y[i+1] - y[i] == fd){
+                    fdc =true;
+                }else{
+                    fdarr[i-1] = (y[i] - y[i-1]);
+                }
+            }else{
+                fdc = false; 
+                fdarr[i-1] = (y[i] - y[i-1]);
+            }
+        }
+        int sd = fdarr[1] - fdarr[0];boolean sdc = false;int[] tdarr = new int[num];
+        for(int i = 1 ; i < num-1; i ++){
+            if(fdarr[i] - fdarr[i-1] == sd){
+                if(i < num-2 && fdarr[i+1] - fdarr[i] == sd ){
+                    sdc = true;
+                }else{
+                    tdarr[i-1] = (fdarr[i] - fdarr[i-1]);
+                }
+            }else{
+                sdc = false; 
+                tdarr[i-1] = (fdarr[i] - fdarr[i-1]);
+            }
+        }
+        int td = tdarr[1] - tdarr[0];boolean tdc = false;
+        for(int i = 1; i < tdarr.length-2; i++){
+            if(tdarr[i] - tdarr[i-1] == td){
+                tdc = true;
+            }else{tdc = false;}
+        }
+        if(sdc){System.out.println("Quadratic Function");}
+        if(fdc){System.out.println("linear Function");}
+        if(tdc){System.out.println("Cubic Function");}
+        else{System.out.println("Not a function");}
+    }
+}
