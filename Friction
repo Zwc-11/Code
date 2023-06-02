@@ -1,38 +1,61 @@
+package CS.version1;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SquareSimulation extends JPanel {
+public class Friction extends JPanel {
     private static final int WIDTH = 10000;
     private static final int HEIGHT = 300;
-    private static final int BOX_SIZE = 50;
-    private static final int SPEED = 200; // Initial speed of the box
-    private static final double FRICTION = 0.15; // Friction coefficient
+    private static final int BOX_SIZE = 100;
+    private static final int Accerlation = 50;
+    private static double MASS = 100;
+    private static double FRICTION = 0.15 * MASS * 9.8; // Friction coefficient
+    private static double Fa = 0;
+    private static double Fnet = Fa - FRICTION;
     private int x; // Current x-coordinate of the box
     private int y; // Current y-coordinate of the box
     private int velocity; // Current velocity of the box
     private Timer timer;
+    JButton button;
 
-    public SquareSimulation() {
+    Friction() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         x = 0;
         y = (HEIGHT - BOX_SIZE) / 2;
-        velocity = SPEED;
+        velocity = Accerlation;
 
+        button = new JButton("Click to restart");
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                restart();
+            }
+        });
+
+        button.setBounds(50, 100, 95, 30);
         timer = new Timer(1000 / 60, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (x + BOX_SIZE < WIDTH) {
                     x += velocity;
-                    velocity = (int) (velocity * (1 - FRICTION));
+                    velocity += (double) Fnet / MASS / 60;
                     repaint();
                 }
             }
         });
+        this.add(button);
 
         timer.setRepeats(true);
         timer.setCoalesce(true);
+        timer.start();
+    }
+
+    public void restart() {
+        timer.stop();
+        x = 0;
+        velocity = Accerlation;
+        repaint();
         timer.start();
     }
 
@@ -42,28 +65,15 @@ public class SquareSimulation extends JPanel {
         g.setColor(Color.RED);
         g.fillRect(x, y, BOX_SIZE, BOX_SIZE);
 
-        // Draw free body diagram
         int arrowLength = 30;
         int arrowWidth = 10;
         int arrowX = x + BOX_SIZE + 10;
         int arrowY = y + (BOX_SIZE / 2) - (arrowWidth / 2);
 
         g.setColor(Color.BLACK);
-        g.drawLine(arrowX, arrowY + (arrowWidth / 2), arrowX + arrowLength, arrowY + (arrowWidth / 2)); // Horizontal
-                                                                                                        // line
-        g.drawLine(arrowX + arrowLength, arrowY + (arrowWidth / 2), arrowX + arrowLength - arrowWidth, arrowY); // Upper
-                                                                                                                // slanting
-                                                                                                                // line
+        g.drawLine(arrowX, arrowY + (arrowWidth / 2), arrowX + arrowLength, arrowY + (arrowWidth / 2));
+        g.drawLine(arrowX + arrowLength, arrowY + (arrowWidth / 2), arrowX + arrowLength - arrowWidth, arrowY);
         g.drawLine(arrowX + arrowLength, arrowY + (arrowWidth / 2), arrowX + arrowLength - arrowWidth,
-                arrowY + arrowWidth); // Lower slanting line
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Square Simulation");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(new SquareSimulation());
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+                arrowY + arrowWidth);
     }
 }
