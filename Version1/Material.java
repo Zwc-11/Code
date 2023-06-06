@@ -5,19 +5,25 @@ import java.awt.*;
 
 public class Material {
     JFrame frame = new JFrame();
-    JFrame frame2 = new JFrame();
 
     JLabel label = new JLabel();
     JLabel box1Text = new JLabel();
+    JLabel box1SmallText = new JLabel();
     JLabel box1Diagram = new JLabel();
     JLabel box1FBDiagram = new JLabel();
     JLabel box2Text = new JLabel();
+    JLabel box2SmallText = new JLabel();
     JLabel box2Diagram = new JLabel();
     JLabel box2FBDiagram = new JLabel();
     JLabel box3Text = new JLabel();
+    JLabel box3SmallText = new JLabel();
     JLabel box3Diagram = new JLabel();
     JLabel box3FBDiagram = new JLabel();
 
+    JPanel Bigbox = new JPanel(new GridBagLayout());
+    JPanel row1 = new JPanel();
+    JPanel row2 = new JPanel();
+    JPanel row3 = new JPanel();
     JPanel box1 = new JPanel();
     JPanel box2 = new JPanel();
     JPanel box3 = new JPanel();
@@ -26,111 +32,190 @@ public class Material {
     JPanel boxD3 = new JPanel();
 
     JButton myButton = new JButton("Resources");
-    JButton myButton2 = new JButton("Pratice");
+    JButton myButton2 = new JButton("Practice");
     JButton myButton3 = new JButton("Quiz");
 
     Material() {
+        // Bigbox
+        Bigbox.setBackground(Color.BLACK);
+        Bigbox.setBorder(BorderFactory.createEmptyBorder(0, 100, 0, 100));
+
         // text
         label.setText("Friction");
-        label.setForeground(Color.white);
+        label.setForeground(Color.WHITE);
         label.setFont(new Font("Helvetica Neue", Font.PLAIN, 80));
         label.setBackground(Color.BLACK);
+        label.setBorder(BorderFactory.createEmptyBorder(10, 50, 0, 10));
         label.setOpaque(true);
-        label.setBounds(0, 0, 200, 500);
-        label.setBounds(10, 10, label.getPreferredSize().width, label.getPreferredSize().height);
-        // button
-        // myButton.setBounds(100, 750, 200, 40);
-        // myButton.setFocusable(false);
-        // myButton2.setBounds(400, 750, 200, 40);
-        // myButton2.setFocusable(false);
-        // myButton3.setBounds(700, 750, 200, 40);
-        // myButton3.setFocusable(false);
-        // Border
 
-        // Free body diagram
-        // box1FBDiagram.setIcon(new ImageIcon("free_body_diagram.png")); // Replace
-        // "free_body_diagram.png" with the actual image file path
-        // box1FBDiagram.setBounds(220, 10, 200, 330);
-        // box1.add(box1FBDiagram);
+        // Row boxes
+        row1.setBackground(Color.BLACK);
+        row2.setBackground(Color.BLACK);
+        row3.setBackground(Color.BLACK);
 
-        box1.setBackground(Color.black);
-        box1.setBounds(30, 150, 1000, 350);
-        box1.setBorder(BorderFactory.createLineBorder(Color.white));
-        box1Text.setText("Static Friction");
-        box1Text.setForeground(Color.white);
-        box1Text.setBackground(Color.black);
-        box1Text.setFont(new Font("Helvetica Neue", Font.PLAIN, 30));
+        // box1 and boxD1
+        box1.setPreferredSize(new Dimension(800, 250));
+        box1.setBackground(Color.BLACK);
+        box1.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+        box1.setLayout(new BorderLayout());
+
+        boxD1.setPreferredSize(new Dimension(600, 250));
+        boxD1.setBackground(Color.BLACK);
+        boxD1.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+        boxD1.setLayout(new BorderLayout());
+
+        // box2 and boxD2
+        box2.setPreferredSize(new Dimension(800, 250));
+        box2.setBackground(Color.BLACK);
+        box2.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+        box2.setLayout(new BorderLayout());
+
+        boxD2.setPreferredSize(new Dimension(600, 250));
+        boxD2.setBackground(Color.BLACK);
+        boxD2.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+        boxD2.setLayout(new BorderLayout());
+
+        // box3 and boxD3
+        box3.setPreferredSize(new Dimension(800, 250));
+        box3.setBackground(Color.BLACK);
+        box3.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+        box3.setLayout(new BorderLayout());
+
+        boxD3.setPreferredSize(new Dimension(600, 250));
+        boxD3.setBackground(Color.BLACK);
+        boxD3.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+        boxD3.setLayout(new BorderLayout());
+
+        // Text for box1
+        box1Text.setText("<html><body style='width: 200px'>Static Friction (Fs)</body></html>");
+        box1Text.setForeground(Color.WHITE);
+        box1Text.setFont(new Font("Helvetica Neue", Font.PLAIN, 20));
+        box1Text.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         box1Text.setOpaque(true);
-        box1.setLayout(new FlowLayout(FlowLayout.LEFT));
-        box1.add(box1Text);
-        box1.setVisible(true);
+        box1Text.setBackground(Color.BLACK);
+        box1.add(box1Text, BorderLayout.NORTH);
 
-        box2.setBackground(Color.black);
-        box2.setBounds(30, 550, 1000, 350);
-        box2.setBorder(BorderFactory.createLineBorder(Color.white));
-        box2Text.setText("Kinetic Friction");
-        box2Text.setBackground(Color.black);
-        box2Text.setForeground(Color.white);
-        box2Text.setFont(new Font("Helvetica Neue", Font.PLAIN, 30));
+        // Text for box1SmallText
+        box1SmallText.setText("<html><body style='width: 400px'>"
+                + "<p style='padding-left: 50px'> -    Force exerted by a surface on a stationary object.</p>"
+                + "<p style='padding-left: 50px'> -    Prevents the object from beginning to move.</p>"
+                + "<p style='padding-left: 50px'> -    Increases as applied force increases.</p>"
+                + "<p style='padding-left: 50px'> -    Acts in the opposite direction as attempted motion.</p>"
+                + "<p style='padding-left: 50px'> -    Object experiences no motion (as static friction force equals applied force so they cancel each other out).</p>"
+                + "<p style='padding-left: 50px'> -    Occurs when the applied force is less than or equal to the starting friction / maximum static friction.</p>"
+                + "</body></html>");
+
+        box1SmallText.setForeground(Color.WHITE);
+        box1SmallText.setFont(new Font("Helvetica Neue", Font.PLAIN, 18));
+        box1SmallText.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        box1SmallText.setOpaque(true);
+        box1SmallText.setBackground(Color.BLACK);
+        box1.add(box1SmallText, BorderLayout.CENTER);
+
+        // Text for box2
+        box2Text.setText("<html><body style='width: 200px'>Box 2</body></html>");
+        box2Text.setForeground(Color.WHITE);
+        box2Text.setFont(new Font("Helvetica Neue", Font.PLAIN, 14));
+        box2Text.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         box2Text.setOpaque(true);
-        box2.setLayout(new FlowLayout(FlowLayout.LEFT));
-        box2.add(box2Text);
-        box2.setVisible(true);
+        box2Text.setBackground(Color.BLACK);
+        box2.add(box2Text, BorderLayout.CENTER);
 
-        box3.setBackground(Color.black);
-        box3.setBounds(30, 950, 1000, 350);
-        box3.setBorder(BorderFactory.createLineBorder(Color.white));
-        box3Text.setText("Coefficient Friction");
-        box3Text.setBackground(Color.black);
-        box3Text.setForeground(Color.white);
-        box3Text.setFont(new Font("Helvetica Neue", Font.PLAIN, 30));
+        box2SmallText.setText("<html><body style='width: 400px'>"
+                + "<p style='padding-left: 50px'> -    Force exerted by a surface on a moving object</p>"
+                + "<p style='padding-left: 50px'> -    Constant (as long as surfaces don't change), regardless of applied force</p>"
+                + "<p style='padding-left: 50px'> -    Acts in the opposite direction of the motion</p>"
+                + "<p style='padding-left: 50px'> -    Occurs when the applied force is greater than the starting friction / maximum static friction</p>"
+                + "</body></html>");
+
+        box2SmallText.setForeground(Color.WHITE);
+        box2SmallText.setFont(new Font("Helvetica Neue", Font.PLAIN, 18));
+        box2SmallText.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        box2SmallText.setOpaque(true);
+        box2SmallText.setBackground(Color.BLACK);
+        box2.add(box2SmallText, BorderLayout.CENTER);
+
+        // Text for box3
+        box3Text.setText("<html><body style='width: 200px'>Box 3</body></html>");
+        box3Text.setForeground(Color.WHITE);
+        box3Text.setFont(new Font("Helvetica Neue", Font.PLAIN, 14));
+        box3Text.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         box3Text.setOpaque(true);
-        box3.setLayout(new FlowLayout(FlowLayout.LEFT));
-        box3.add(box3Text);
-        box3.setVisible(true);
+        box3Text.setBackground(Color.BLACK);
+        box3.add(box3Text, BorderLayout.CENTER);
 
-        // boxD
-        boxD1.setBounds(1500, 150, 600, 350);
-        boxD1.setBorder(BorderFactory.createLineBorder(Color.white));
-        boxD1.setLayout(new FlowLayout(FlowLayout.LEFT));
-        boxD1.setVisible(true);
-        box1Diagram.setIcon(new ImageIcon("cs_Culminating/Version_1/Static_Friction.png"));
+        box3SmallText.setText("<html><body style='width: 400px'>"
+                + "<p style='padding-left: 50px'> -    Experientially determined constant</p>"
+                + "<p style='padding-left: 50px'> -    Depends on the nature of the two contacting surfaces</p>"
+                + "<p style='padding-left: 50px'> -    Affects the amount of friction an object experiences</p>"
+                + "<p style='padding-left: 50px'> -    Two types: coefficient of static friction (μs) and coefficient of kinetic friction (μk)</p>"
+                + "</body></html>");
+
+        box3SmallText.setForeground(Color.WHITE);
+        box3SmallText.setFont(new Font("Helvetica Neue", Font.PLAIN, 18));
+        box3SmallText.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        box3SmallText.setOpaque(true);
+        box3SmallText.setBackground(Color.BLACK);
+        box3.add(box3SmallText, BorderLayout.CENTER);
+
+        // Image for boxD1
+        ImageIcon imageIcon1 = new ImageIcon("cs_Culminating/Version_1/Static_Friction.png"); 
+        
+        Image image1 = imageIcon1.getImage().getScaledInstance(600, 250, Image.SCALE_SMOOTH);
+        box1Diagram.setIcon(new ImageIcon(image1));
         boxD1.add(box1Diagram);
-
-        boxD2.setBounds(1500, 550, 600, 350);
-        boxD2.setBorder(BorderFactory.createLineBorder(Color.white));
-        boxD2.setLayout(new FlowLayout(FlowLayout.LEFT));
-        boxD2.setVisible(true);
-        box2Diagram.setIcon(new ImageIcon("cs_Culminating/Version_1/Kinetic_Friction.png"));
+        // Image for boxD2
+        ImageIcon imageIcon2 = new ImageIcon("cs_Culminating/Version_1/Kinetic_Friction.png"); 
+        Image image2 = imageIcon2.getImage().getScaledInstance(600, 250, Image.SCALE_SMOOTH);
+        box2Diagram.setIcon(new ImageIcon(image2));
         boxD2.add(box2Diagram);
 
-        boxD3.setBounds(1460, 950, 680, 350);
-        boxD3.setBorder(BorderFactory.createLineBorder(Color.white));
-        boxD3.setLayout(new FlowLayout(FlowLayout.LEFT));
-        boxD3.setVisible(true);
-        box3Diagram.setIcon(new ImageIcon("cs_Culminating/Version_1/Coefficient_of_friction.png"));
+        // Image for boxD3
+        ImageIcon imageIcon3 = new ImageIcon("cs_Culminating/Version_1/Coefficient_of_friction.png"); 
+        Image image3 = imageIcon3.getImage().getScaledInstance(600, 250, Image.SCALE_SMOOTH);
+        box3Diagram.setIcon(new ImageIcon(image3));
         boxD3.add(box3Diagram);
+
+        // Set up GridBagConstraints
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(0, 0, 25, 0);
+
+        // Add components to row 1
+        row1.add(box1);
+        row1.add(Box.createHorizontalStrut(100)); // Add horizontal gap between box1 and boxD1
+        row1.add(boxD1);
+        Bigbox.add(row1, gbc);
+
+        // Add components to row 2
+        gbc.gridy = 1;
+        gbc.insets = new Insets(0, 0, 25, 0);
+        row2.add(box2);
+        row2.add(Box.createHorizontalStrut(100)); // Add horizontal gap between box2 and boxD2
+        row2.add(boxD2);
+        Bigbox.add(row2, gbc);
+
+        // Add components to row 3
+        gbc.gridy = 2;
+        gbc.insets = new Insets(0, 0, 25, 0);
+        row3.add(box3);
+        row3.add(Box.createHorizontalStrut(100)); // Add horizontal gap between box3 and boxD3
+        row3.add(boxD3);
+        Bigbox.add(row3, gbc);
+
         // frame
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setSize(1800, 1200);
+        frame.setMinimumSize(new Dimension(1800, 1200));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(null);
+        frame.setLayout(new BorderLayout());
         frame.getContentPane().setBackground(Color.BLACK);
         frame.setVisible(true);
-        // frame.add(myButton);
-        // frame.add(myButton2);
-        // frame.add(myButton3);
-        frame.add(label);
-        frame.add(box1);
-        frame.add(box2);
-        frame.add(box3);
-        frame.add(boxD1);
-        frame.add(boxD2);
-        frame.add(boxD3);
-
+        frame.add(Bigbox, BorderLayout.CENTER);
+        frame.add(label, BorderLayout.NORTH);
     }
 
     public static void main(String[] args) {
         new Material();
     }
-
 }
