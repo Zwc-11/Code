@@ -1,0 +1,237 @@
+package Version_1;
+
+import javax.swing.*;
+import javax.swing.border.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+public class Samples implements ActionListener {
+    int problemNumber = 1;
+
+    JFrame frame = new JFrame("CJ Physics Tutorial - Samples");
+    JPanel megaPanel = new JPanel();
+    JPanel panel = new JPanel(); // title panel
+    JPanel panel2 = new JPanel(); // problem panel
+    JPanel panel3 = new JPanel(); // diagram panel
+    JPanel panel4 = new JPanel(); // solution panel
+
+    JLabel title = new JLabel();
+    JLabel problem = new JLabel();
+    JLabel solution = new JLabel();
+
+    JButton previous = new JButton("Previous");
+    JButton next = new JButton("Next");
+
+    Color buttonColor = Main.color2;
+    Color hoverColor = Main.color3;
+
+    Samples() {
+        // Sets component layouts
+        title.setFont(new Font("Helvetica Neue", Font.PLAIN, 36));
+        problem.setFont(new Font("Helvetica Neue", Font.PLAIN, 30));
+        solution.setFont(new Font("Helvetica Neue", Font.PLAIN, 24));
+
+        // Sets panels
+        Border b = BorderFactory.createLineBorder(Color.black, 1);
+
+        megaPanel.setBounds(Main.screenWidth / 2 - 600, 100, 1200, 775);
+        megaPanel.setLayout(null);
+
+        panel.setBounds(0, 0, 1200, 75);
+        panel.setBorder(b);
+        panel.setLayout(new GridBagLayout());
+        panel.setBackground(Main.color1);
+        panel.add(title);
+
+        panel2.setBounds(0, 75, 1200, 300);
+        panel2.setBorder(b);
+        panel2.setBackground(Main.color1);
+        panel2.add(problem);
+
+        panel3.setBounds(0, 375, 600, 400);
+        panel3.setBackground(Main.color1);
+        panel3.setLayout(null);
+
+        panel4.setBounds(600, 375, 600, 400);
+        panel4.setBorder(b);
+        panel4.setBackground(Main.color1);
+        panel4.add(solution);
+
+        // Sets buttons
+        previous.setBounds(Main.screenWidth / 2 - 600, 900, 200, 50);
+        previous.setFont(new Font("Helvetica Neue", Font.PLAIN, 24));
+        previous.setFocusable(false);
+        previous.setBackground(buttonColor);
+        previous.addActionListener((ActionListener) this);
+        previous.addMouseListener(mouseHover());
+        previous.setEnabled(false);
+
+        next.setBounds(Main.screenWidth / 2 + 400, 900, 200, 50);
+        next.setFont(new Font("Helvetica Neue", Font.PLAIN, 24));
+        next.setFocusable(false);
+        next.setBackground(buttonColor);
+        next.addActionListener((ActionListener) this);
+        next.addMouseListener(mouseHover());
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.getContentPane().setBackground(Main.color4);
+        frame.setVisible(true);
+        frame.setResizable(false);
+        frame.setLayout(null);
+
+        megaPanel.add(panel);
+        megaPanel.add(panel2);
+        megaPanel.add(panel3);
+        megaPanel.add(panel4);
+
+        frame.add(megaPanel);
+        frame.add(previous);
+        frame.add(next);
+        // Sets problem to problem #1
+        setProblem(problemNumber);
+    }
+
+    public void setProblem(int x) {
+        Problem sampleProblem;
+        switch (x) {
+            case 1:
+                title.setText("Sample Problem #1 - Kinetic Friction");
+                sampleProblem = new Problem(Problem.KINETIC_FRICTION, "box", 20, 0.5);
+                problem.setText(
+                        "<html><body><div style = 'width: 900px'>"
+                                + "Problem <br>"
+                                + sampleProblem.getProblem()
+                                + "</div></body></html>");
+                solution.setText("<html><body><div style = 'width: 450px'>"
+                        + "Solution <br>"
+                        + sampleProblem.getSolution()
+                        + "</div></body></html>");
+
+                panel3.removeAll();
+                panel3.add(sampleProblem.getFbd());
+                panel3.repaint();
+                break;
+            case 2:
+                title.setText("Sample Problem #2 - Object Slowing Down");
+                sampleProblem = new Problem(Problem.SLOWING_TO_STOP, "toy car", 15, 9, 0, 9);
+                problem.setText(
+                        "<html><body><div style = 'width: 900px'>"
+                                + "Problem <br>"
+                                + sampleProblem.getProblem()
+                                + "</div></body></html>");
+                solution.setText("<html><body><div style = 'width: 450px'>"
+                        + "Solution <br>"
+                        + sampleProblem.getSolution()
+                        + "</div></body></html>");
+                panel3.removeAll();
+                panel3.add(sampleProblem.getFbd());
+                panel3.repaint();
+                break;
+            case 3:
+                title.setText("Sample Problem #3 - Applied Force & Friction");
+                sampleProblem = new Problem(Problem.SINGLE_OBJECT, "wagon", 24, 1.2, 0.1);
+                problem.setText(
+                        "<html><body><div style = 'width: 900px'>"
+                                + "Problem <br>"
+                                + sampleProblem.getProblem()
+                                + "</div></body></html>");
+                solution.setText("<html><body><div style = 'width: 450px'>"
+                        + "Solution <br>"
+                        + sampleProblem.getSolution()
+                        + "</div></body></html>");
+                panel3.removeAll();
+                panel3.add(sampleProblem.getFbd());
+                panel3.repaint();
+                break;
+            case 4:
+                title.setText("Sample Problem #4 - Starting Friction");
+                sampleProblem = new Problem(Problem.STARTING_FRICTION, 15, 60, 0.4, "table");
+                problem.setText(
+                        "<html><body><div style = 'width: 900px'>"
+                                + "Problem <br>"
+                                + sampleProblem.getProblem()
+                                + "</div></body></html>");
+                solution.setText("<html><body><div style = 'width: 450px'>"
+                        + "Solution <br>"
+                        + sampleProblem.getSolution()
+                        + "</div></body></html>");
+                panel3.removeAll();
+                panel3.add(sampleProblem.getFbd());
+                panel3.repaint();
+                break;
+            case 5:
+                title.setText("Sample Problem #5 - Wall Friction");
+                sampleProblem = new Problem(Problem.WALL_FRICTION, 2.4, 0.4, "book");
+                problem.setText(
+                        "<html><body><div style = 'width: 900px'>"
+                                + "Problem <br>"
+                                + sampleProblem.getProblem()
+                                + "</div></body></html>");
+                solution.setText("<html><body><div style = 'width: 450px'>"
+                        + "Solution <br>"
+                        + sampleProblem.getSolution()
+                        + "</div></body></html>");
+                panel3.removeAll();
+                panel3.add(sampleProblem.getFbd());
+                panel3.repaint();
+                break;
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == previous) {
+            problemNumber--;
+        } else if (e.getSource() == next) {
+            problemNumber++;
+        }
+
+        switch (problemNumber) {
+            case 1:
+                previous.setEnabled(false);
+                previous.setBackground(buttonColor);
+                break;
+            case 5: // 5 problems in total
+                next.setEnabled(false);
+                next.setBackground(buttonColor);
+                break;
+            default:
+                previous.setEnabled(true);
+                next.setEnabled(true);
+        }
+        setProblem(problemNumber);
+    }
+
+    private MouseListener mouseHover() {
+        return new MouseListener() {
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            public void mousePressed(MouseEvent e) {
+            }
+
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            public void mouseEntered(MouseEvent e) {
+                if (e.getSource() == previous && previous.isEnabled() || e.getSource() == next && next.isEnabled()) {
+                    ((JButton) e.getSource()).setBackground(hoverColor);
+                }
+            }
+
+            public void mouseExited(MouseEvent e) {
+                ((JButton) e.getSource()).setBackground(buttonColor);
+            }
+        };
+    }
+
+    public static void main(String[] args) {
+        Main.screenHeight = 1080;
+        Main.screenWidth = 1920;
+        new Samples();
+    }
+}
