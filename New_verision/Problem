@@ -1,0 +1,219 @@
+package Version_1;
+
+//If a variable is -1, it is unknown
+//csf means coefficient of static friction
+//ckf means coeffiicent of kinetic friction
+
+public class Problem {
+    public static final int UNKNOWN = -1;
+    public static final double gStrength = 9.8; // gravitational field strength
+
+    // Problem Types
+    public static final int KINETIC_FRICTION = 0;
+    public static final int SLOWING_TO_STOP = 1;
+    public static final int SINGLE_OBJECT = 2;
+    public static final int STARTING_FRICTION = 3;
+    public static final int WALL_FRICTION = 4;
+
+    public static String MUK = "μₖ";
+    public static String MUS = "μₛ";
+
+    public static String FA = "Fₐ";
+    public static String FK = "Fₖ";
+    public static String FS = "Fₛ";
+    public static String FG = "F₉";
+    public static String FN = "Fₙ";
+
+    // Variables that every problem has
+    int type;
+    String problem;
+    Fbd fbd;
+    double answer;
+    boolean answer2; // used for starting friction problems
+    String fullSolution;
+
+    String object;
+    double mass;
+
+    // Force variables
+    double gravitationalForce = 0;
+    double normalForce = 0;
+    double frictionalForce = 0;
+    double appliedForce = 0;
+
+    // KINETIC_FRICTION problem
+    Problem(int type, String object, double mass, double ckf) {
+        this.type = type;
+        problem = "A " + mass + "kg " + object + " slides across a surface. If the coefficient of kinetic friction is "
+                + ckf + ", what is the frictional force the object experiences?";
+
+        gravitationalForce = mass * gStrength;
+        normalForce = gravitationalForce;
+        frictionalForce = normalForce * ckf;
+        // rounds to nearest hundredth
+        answer = Math.round(frictionalForce * 100.0) / 100.0;
+
+        // System.out.println(appliedForce);
+        fbd = new Fbd(frictionalForce, appliedForce, normalForce, gravitationalForce);
+
+        fullSolution = "m = " + mass + "kg, μₖ = " + ckf + ", Fₖ = ? <br><br>"
+                + "Fₖ = μₖFₙ <br>"
+                + "= μₖF₉ <br>"
+                + "= μₖmg <br>"
+                + "= (" + ckf + ")(" + mass + "kg)(9.8N/kg) <br>"
+                + "= " + answer + "N <br><br>"
+                + "Therefore, the frictional force is " + answer + "N";
+    }
+
+    // SLOWING_TO_STOP problem
+    Problem(int type, String object, double mass, double initVelocity, double finalVelocity, double distance) {
+        this.type = type;
+        if (finalVelocity == 0) {
+            problem = "A " + mass + "kg " + object + " with an initial velocity of " + initVelocity + "m/s travels "
+                    + distance + "m before coming to a stop. "
+                    + "What is the coefficient of friction?";
+        } else {
+            problem = "A " + mass + "kg " + object + " initially has a velocity of " + initVelocity + "m/s."
+                    + "After travelling for " + distance + "m, it slows down to " + finalVelocity + "."
+                    + "What is the coefficient of friction?";
+        }
+
+        gravitationalForce = mass * gStrength;
+        normalForce = gravitationalForce;
+
+        double acceleration = Math.abs((finalVelocity * finalVelocity - initVelocity * initVelocity) / 2.0 / distance);
+        frictionalForce = mass * acceleration;
+        double ckf = frictionalForce / gravitationalForce;
+        answer = Math.round(ckf * 100.0) / 100.0;
+
+        fbd = new Fbd(frictionalForce, appliedForce, normalForce, gravitationalForce);
+
+        fullSolution = "m = " + mass + "kg, v₀ = " + initVelocity + "m/s, v = " + finalVelocity + "m/s, Δd = "
+                + distance + "m, μₖ = ? <br><br>"
+                + "a = (v² - v₀²) / 2Δd = " + acceleration + "m/s² <br>"
+                + "Fₖ = Fₙₑₜ = ma = " + mass + "kg x " + acceleration + "m/s² = " + frictionalForce + "<br>"
+                + "μₖ = Fₖ / Fₙ <br>"
+                + "= Fₖ / F₉ <br>"
+                + "= Fₖ / mg <br>"
+                + "= (" + frictionalForce + "N) / (" + mass + "kg)(9.8N/kg) <br>"
+                + "= " + answer + "<br><br>"
+                + "Therefore, the coefficient of friction is " + answer;
+    }
+
+    // Single Object problem
+    Problem(int type, String object, double mass, double acceleration, double ckf) {
+        this.type = type;
+        problem = "A " + mass + "kg " + object + " is pushed along the ground at " + acceleration
+                + ". If the coefficient of kinetic friction is " + ckf
+                + ", what is the applied force that the object experiences?";
+
+        double netForce = Math.round(mass * acceleration * 100.0) / 100.0;
+        gravitationalForce = mass * gStrength;
+        normalForce = gravitationalForce;
+        frictionalForce = Math.round(ckf * normalForce * 100.0) / 100.0;
+        appliedForce = netForce + frictionalForce;
+        System.out.println(frictionalForce);
+        System.out.println(netForce);
+        answer = Math.round(appliedForce * 100.0) / 100.0;
+
+        fbd = new Fbd(frictionalForce, appliedForce, normalForce, gravitationalForce);
+
+        fullSolution = "m = " + mass + "kg, a = " + acceleration + "m/s², μₖ = " + ckf + ", Fₐ = ? <br><br>"
+                + "Fₙₑₜ = ma = " + mass + "kg x " + acceleration + "m/s² = " + frictionalForce + "<br>"
+                + "Fₖ = μₖFₙ <br>"
+                + "= μₖF₉ <br>"
+                + "= μₖmg <br>"
+                + "= (" + ckf + ")(" + mass + "kg)(9.8N/kg) <br>"
+                + "= " + frictionalForce + "N <br>"
+                + "Fₐ = Fₙₑₜ - Fₖ = " + netForce + "N - " + frictionalForce + "N = " + answer + "N <br><br>"
+                + "Therefore, the applied force is " + answer + "N";
+    }
+
+    // STARTING_FRICTION problem
+    Problem(int type, double mass, double appliedForce, double csf, String object) {
+        this.type = type;
+        problem = "If a " + mass + "kg " + object + " experiences an applied force of " + appliedForce
+                + "N, and the coefficient of static friction is " + csf + ", will the object start moving?";
+
+        gravitationalForce = mass * gStrength;
+        normalForce = gravitationalForce;
+        frictionalForce = Math.round(csf * gravitationalForce * 100.0) / 100.0;
+
+        fbd = new Fbd(frictionalForce, appliedForce, normalForce, gravitationalForce, FS, FA, FN, FG);
+
+        String res = "";
+        if (appliedForce > frictionalForce) {
+            res = appliedForce + "N > " + frictionalForce + "N so Fₐ > Fₛ <br>"
+                    + "Since the applied force is greater than the starting friction, the object will move";
+            answer2 = true;
+        } else {
+            res = appliedForce + "N < " + frictionalForce + "N so Fₐ < Fₛ <br>"
+                    + "Since the applied force is less than the starting friction, the object will not move";
+            answer2 = false;
+        }
+
+        fullSolution = "m = " + mass + "kg, Fₐ = " + appliedForce + "N, μₛ = " + csf + ", Fₛ = ? <br><br>"
+                + "Fₛ = μₛFₙ <br>"
+                + "= μₛF₉ <br>"
+                + "= μₛmg <br>"
+                + "= (" + csf + ")(" + mass + "kg)(9.8N/kg) <br>"
+                + "= " + frictionalForce + "N <br><br>"
+                + res;
+    }
+
+    // Wall Friction Problem
+    Problem(int type, double mass, double csf, String object) {
+        this.type = type;
+        problem = "A " + mass + "kg " + object + " is being pushed against a vertical wall. "
+                + "If the coefficient of static friction is " + csf
+                + ", determine the minimum force needed to keep the " + object + " from sliding";
+
+        gravitationalForce = mass * gStrength;
+        frictionalForce = gravitationalForce;
+        normalForce = frictionalForce / csf;
+        appliedForce = normalForce;
+        answer = Math.round(appliedForce * 100.0) / 100.0;
+
+        fbd = new Fbd(normalForce, appliedForce, frictionalForce, gravitationalForce, FN, FA, FS, FG);
+
+        fullSolution = "m = " + mass + "kg,  = " + "μₛ = " + csf + ", Fₐ = ? <br><br>"
+                + "Fₛ = F₉ = mg = (" + mass + "kg)(9.8N/kg) = " + frictionalForce + "N <br>"
+                + "Fₐ = Fₙ <br>"
+                + "= Fₛ / μₛ" + "<br>"
+                + "= " + frictionalForce + "N / " + csf + "<br>"
+                + "= " + answer + "N <br><br>"
+                + "Therefore, the applied force is " + answer + "N";
+    }
+
+    public String getProblem() {
+        return problem;
+    }
+
+    public double getAnswer() {
+        return answer;
+    }
+
+    public boolean getAnswer2() {
+        return answer2;
+    }
+
+    public boolean checkAnswer(double userAnswer) {
+        // Checks if user answer is within 0.5% of actual anwswer
+        if (userAnswer <= 1.005 * answer && userAnswer >= 0.995 * answer) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkAnswer2(boolean userAnswer) {
+        return userAnswer == answer2;
+    }
+
+    public String getSolution() {
+        return fullSolution;
+    }
+
+    public Fbd getFbd() {
+        return fbd;
+    }
+}
